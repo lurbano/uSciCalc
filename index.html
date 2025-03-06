@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        #screen {
+            background-color: aliceblue;
+            width: 250px;
+            height: 1.5em;
+            text-align: right;
+        }
+        #keypad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            width: 250px;
+        }
+        .numkey {
+            
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid black;
+            border-radius: 3px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 1.5em;
+            margin:5px;
+        }
+        .ctrlKey {
+            
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="screen"> 0 </div>
+
+    <div id="keypad">
+        <div id="n-7" class="numkey">7</div>
+        <div id="n-8" class="numkey">8</div>
+        <div id="n-9" class="numkey">9</div>
+        <div id="n-del" class="numkey ctrlKey" >DEL</div>
+        <div id="n-ac" class="numkey ctrlKey" >AC</div>
+
+        <div id="n-4" class="numkey">4</div>
+        <div id="n-5" class="numkey">5</div>
+        <div id="n-6" class="numkey">6</div>
+        <div id="n-×" class="numkey oppKey">×</div>
+        <div id="n-÷" class="numkey oppKey">÷</div>
+
+        <div id="n-1" class="numkey">1</div>
+        <div id="n-2" class="numkey">2</div>
+        <div id="n-3" class="numkey">3</div>
+        <div id="n-+" class="numkey oppKey">+</div>
+        <div id="n-−" class="numkey oppKey">−</div>
+
+        <div id="n-0" class="numkey">0</div>
+        <div id="n-±" class="numkey oppKey">±</div>
+        <div id="n-." class="numkey">.</div>
+        <div id="n-E" class="numkey oppKey">E</div>
+        <div id="n-=" class="numkey oppKey">=</div>
+
+    </div>
+
+
+</body>
+
+<script>
+
+    result = 0;
+    oldVal = 0;
+
+    screenDiv = document.getElementById("screen");
+
+    let keys = document.getElementsByClassName("numkey");
+    let oppKeys = document.getElementsByClassName("oppkey");
+    
+    
+    for (key of keys) {
+        key.addEventListener("click", function(){
+            console.log(this.id, this.textContent);
+            keyId = this.textContent;
+
+            if ("0123456789".includes(keyId)){
+                result = result*10 + parseInt(keyId);
+                console.log("result", result);
+                onScreen(result);
+            } else {
+                resetOppKeys();
+                highlightKey(keyId);
+
+                oldVal = result;
+                result = 0;
+                operation = "+-×÷".includes(keyId) ? keyId : "";
+                // if (keyId === "+") {
+                //     operation = "+"
+                // }
+                onScreen("");
+
+                if (keyId === "=") {
+                    if (operation === "+"){
+                        result = oldVal + result;
+                    }
+                    if (operation === "-"){
+                        result = oldVal - result;
+                    }
+                    if (operation === "×"){
+                        result = oldVal * result;
+                    }
+                    if (operation === "÷"){
+                        result = oldVal / result;
+                    }
+
+                    // resetKey(operation);
+                    onScreen(result);
+                }
+                else {
+                    resetKey("=");
+                }
+            }
+        })
+    }
+
+    function highlightKey(id){
+        let divId = "n-" + id;
+        let div = document.getElementById(divId);
+        div.style.backgroundColor = "yellow";
+    }
+    function resetKey(id){
+        divId = "n-" + id;
+        div = document.getElementById(divId);
+        div.style.backgroundColor = "white";
+    }
+
+    function resetOppKeys(){
+        for (let key of oppKeys){
+            resetKey(key.id);
+        }
+    }
+    function onScreen(val){
+        screenDiv.textContent = val;
+    }
+
+</script>
+</html>
