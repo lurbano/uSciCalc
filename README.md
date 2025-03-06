@@ -1,0 +1,2 @@
+# uSciCalc
+Simple scientific calculator.
