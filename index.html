@@ -73,14 +73,14 @@
         <div id="n-1" class="numkey">1</div>
         <div id="n-2" class="numkey">2</div>
         <div id="n-3" class="numkey">3</div>
-        <div id="n-+" class="numkey oppKey">+</div>
-        <div id="n-−" class="numkey oppKey">−</div>
+        <div id="n-+" class="numkey oppkey">+</div>
+        <div id="n-−" class="numkey oppkey">−</div>
 
         <div id="n-0" class="numkey">0</div>
-        <div id="n-±" class="numkey oppKey">±</div>
+        <div id="n-±" class="numkey oppkey">±</div>
         <div id="n-." class="numkey">.</div>
-        <div id="n-E" class="numkey oppKey">E</div>
-        <div id="n-=" class="numkey oppKey">=</div>
+        <div id="n-E" class="numkey oppkey">E</div>
+        <div id="n-=" class="numkey oppkey">=</div>
 
     </div>
 
@@ -91,6 +91,7 @@
 
     result = 0;
     oldResult = 0;
+    operation = "";
 
     ADiv = document.getElementById("screenA");
     opDiv = document.getElementById("screenOp");
@@ -112,6 +113,9 @@
                 onB(result);
             }
             else if ('+−×÷'.includes(keyId)){
+                console.log("operation", operation, operation === "")
+                if (operation !== "") calculate();
+
                 highlightKey(keyId);
                 operation = keyId;
                 oldResult = result;
@@ -120,12 +124,17 @@
                 onA(oldResult);
                 onOp(operation);
                 onB("");
+                
 
             }
             else if (keyId === "AC") {
+                result = 0;
+                oldResult = 0;
+                operation = "";
                 onA("");
                 onOp("");
                 onB("");
+                resetOppKeys();
             }
             else if (keyId === "="){
 
@@ -168,12 +177,15 @@
     function resetKey(id){
         divId = "n-" + id;
         div = document.getElementById(divId);
-        div.style.backgroundColor = "white";
+        if (div !== undefined) {
+            div.style.backgroundColor = "white";
+        }
     }
 
     function resetOppKeys(){
         for (let key of oppKeys){
-            resetKey(key.id);
+            console.log(key.textContent);
+            resetKey(key.textContent);
         }
     }
     function onScreen(val){
