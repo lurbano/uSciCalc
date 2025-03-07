@@ -6,10 +6,25 @@
     <title>Calculator</title>
     <style>
         #screen {
-            background-color: aliceblue;
+            display: grid;
+            grid-template-columns: 1fr 1em 1fr;
+            /* background-color: aliceblue; */
             width: 250px;
             height: 1.5em;
             text-align: right;
+        }
+        #screenA {
+            background-color: aliceblue;
+            padding-right: 5px;
+            border-right: 1px solid grey;
+        }
+        #screenOp {
+            background-color: aliceblue;
+            border: 1px solid blue;
+        }
+        #screenB {
+            background-color: aliceblue;
+            padding-left: 5px;
         }
         #keypad {
             display: grid;
@@ -36,7 +51,11 @@
 </head>
 <body>
     
-    <div id="screen"> 0 </div>
+    <div id="screen"> 
+        <div id="screenA"></div>
+        <div id="screenOp"></div>
+        <div id="screenB"></div>
+    </div>
 
     <div id="keypad">
         <div id="n-7" class="numkey">7</div>
@@ -71,9 +90,12 @@
 <script>
 
     result = 0;
-    oldVal = 0;
+    oldResult = 0;
 
-    screenDiv = document.getElementById("screen");
+    ADiv = document.getElementById("screenA");
+    opDiv = document.getElementById("screenOp");
+    BDiv = document.getElementById("screenB");
+    // screenDiv = document.getElementById("screen");
 
     let keys = document.getElementsByClassName("numkey");
     let oppKeys = document.getElementsByClassName("oppkey");
@@ -87,41 +109,55 @@
             if ("0123456789".includes(keyId)){
                 result = result*10 + parseInt(keyId);
                 console.log("result", result);
-                onScreen(result);
-            } else {
-                resetOppKeys();
-                highlightKey(keyId);
-
-                oldVal = result;
-                result = 0;
-                operation = "+-×÷".includes(keyId) ? keyId : "";
-                // if (keyId === "+") {
-                //     operation = "+"
-                // }
-                onScreen("");
-
-                if (keyId === "=") {
-                    if (operation === "+"){
-                        result = oldVal + result;
-                    }
-                    if (operation === "-"){
-                        result = oldVal - result;
-                    }
-                    if (operation === "×"){
-                        result = oldVal * result;
-                    }
-                    if (operation === "÷"){
-                        result = oldVal / result;
-                    }
-
-                    // resetKey(operation);
-                    onScreen(result);
-                }
-                else {
-                    resetKey("=");
-                }
+                onB(result);
             }
+            else if ('+−×÷'.includes(keyId)){
+                highlightKey(keyId);
+                operation = keyId;
+                oldResult = result;
+                result = 0;
+                
+                onA(oldResult);
+                onOp(operation);
+                onB("");
+
+            }
+            else if (keyId === "AC") {
+                onA("");
+                onOp("");
+                onB("");
+            }
+            else if (keyId === "="){
+
+                calculate();
+
+            }
+            
         })
+    }
+            
+    function calculate(){
+        operation = opDiv.textContent;
+        let calc = ADiv.textContent + operation + BDiv.textContent;
+
+        if (operation === "+"){
+            result = oldResult + result;
+        }
+        else if (operation === "−"){
+            result = oldResult - result;
+        }
+        else if (operation === "×"){
+            result = oldResult * result;
+        }
+        else if (operation === "÷"){
+            result = oldResult / result;
+        }
+
+        resetKey(operation);
+
+        onA(calc);
+        onOp("=");
+        onB(result);
     }
 
     function highlightKey(id){
@@ -143,6 +179,27 @@
     function onScreen(val){
         screenDiv.textContent = val;
     }
+
+    function onA(val){
+        ADiv.textContent = val;
+    }
+    function clearA(){
+        ADiv.textContent = "";
+    }
+    function onOp(op){
+        opDiv.textContent = op;
+    }
+    function clearOp(){
+        opDiv.textContent = "";
+    }
+    function onB(val){
+        BDiv.textContent = val;
+    }
+    function clearB(){
+        BDiv.textContent = "";
+    }
+
+
 
 </script>
 </html>
