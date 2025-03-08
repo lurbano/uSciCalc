@@ -92,6 +92,8 @@
     result = 0;
     oldResult = 0;
     operation = "";
+    nDecimals = 0;
+    showDecimal = false;
 
     ADiv = document.getElementById("screenA");
     opDiv = document.getElementById("screenOp");
@@ -108,22 +110,51 @@
             keyId = this.textContent;
 
             if ("0123456789".includes(keyId)){
-                result = result*10 + parseInt(keyId);
-                console.log("result", result);
+                console.log("result a.", result);
+                // if (showDecimal){
+                //     nDecimals += 1;
+                // }
+                console.log(nDecimals)
+                result = result*(10**(nDecimals+1)) + parseInt(keyId);
+                console.log("result b.", result);
+                if (showDecimal){
+                    nDecimals += 1;
+                    result = result / (10**nDecimals);
+                    result = Number(result.toFixed(nDecimals));
+                }
+                console.log("result c.", result);
                 onB(result);
+                
+            }
+            else if (keyId === "."){
+                if (showDecimal === false) {
+                    showDecimal = true;
+                    onB(result.toFixed()+".");
+                }
+                
             }
             else if ('+−×÷'.includes(keyId)){
                 console.log("operation", operation, operation === "")
-                if (operation !== "") calculate();
+                // if there is an opperation indicated
+                if (operation !== "") {
+                    //execute operation
+                    calculate();
+                    
+
+
+                }
 
                 highlightKey(keyId);
                 operation = keyId;
                 oldResult = result;
+                // reset
+                showDecimal = false;
+                nDecimals = 0;
                 result = 0;
                 
                 onA(oldResult);
                 onOp(operation);
-                onB("");
+                onB(0);
                 
 
             }
@@ -131,14 +162,35 @@
                 result = 0;
                 oldResult = 0;
                 operation = "";
+                showDecimal = false;
+                nDecimals = 0;
                 onA("");
                 onOp("");
-                onB("");
+                onB(0);
                 resetOppKeys();
+            }
+            else if (keyId === 'DEL'){
+                if (showDecimal) {
+                    nDecimals -= 1;
+                    result = result*10**(nDecimals);
+                    result = Math.trunc(result);
+                    result = result / (10**nDecimals);
+                }
+                else {
+                    result = result / 10;
+                    result = Math.trunc(result);
+                }
+                
+                onB(result);
             }
             else if (keyId === "="){
 
                 calculate();
+
+                operation = "";
+                showDecimal = false;
+                nDecimals = 0;
+                resetOppKeys();
 
             }
             
@@ -193,6 +245,11 @@
     }
 
     function onA(val){
+        if (typeof(val) !== 'string'){
+            if (!showDecimal) {
+                val = Number(val.toFixed(10));
+            }
+        }
         ADiv.textContent = val;
     }
     function clearA(){
@@ -205,6 +262,11 @@
         opDiv.textContent = "";
     }
     function onB(val){
+        if (typeof(val) !== 'string'){
+            if (!showDecimal) {
+                val = Number(val.toFixed(10));
+            }
+        }
         BDiv.textContent = val;
     }
     function clearB(){
