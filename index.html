@@ -5,83 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <style>
+        #calculator {
+            float: right;
+            width: 75%;
+        }
         #screen {
             display: grid;
             grid-template-columns: 1fr 1em 1fr;
             /* background-color: aliceblue; */
-            width: 250px;
-            height: 1.5em;
+            width: 90%;
+            height: 55px;
             text-align: right;
+            font-size: 1.5em;
+            vertical-align: middle;
+            border: 2px solid grey;
         }
         #screenA {
             background-color: aliceblue;
             padding-right: 5px;
-            border-right: 1px solid grey;
+            /* border-right: 1px solid grey; */
+            height: 50px;
         }
         #screenOp {
             background-color: aliceblue;
-            border: 1px solid blue;
+            border: 2px solid white;
+            height: 50px;
         }
         #screenB {
             background-color: aliceblue;
             padding-left: 5px;
+            height: 50px;
+            vertical-align: middle;
         }
-        #keypad {
+        #keyPad {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            width: 250px;
+            grid-template-rows: repeat(4, 1fr);
+            width: 90%;
         }
         .numkey {
             
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
+            width: 85%;
+            height: 60px;
+            line-height: 60px;
             border: 1px solid black;
             border-radius: 3px;
+            margin: auto;
+            width: 90%;
             text-align: center;
-            vertical-align: middle;
-            font-size: 1.5em;
+            /* vertical-align: middle; */
+            font-size: 2em;
             margin:5px;
         }
         .ctrlKey {
             
             font-size: 1em;
         }
+        .inactiveKey {
+            color: grey;
+        }
+        .invertedKey {
+            color: white;
+            background-color: darkgrey;
+        }
+
+        #functionPad {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            width: 90%;
+        }
+        .functionKey {
+            width: 85%;
+            height: 50px;
+            line-height: 50px;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            /* border: 1px solid black;
+            border-radius: 3px;
+            margin: auto;
+            width: 90%;
+            text-align: center;
+            font-size: 2em;
+            margin:5px; */
+        }
+        .irrationalKey {
+            font-family: 'Times New Roman', serif;
+        }
+
     </style>
 </head>
 <body>
     
-    <div id="screen"> 
-        <div id="screenA"></div>
-        <div id="screenOp"></div>
-        <div id="screenB"></div>
-    </div>
+    <div id = "calculator">
+        <div id="screen"> 
+            <div id="screenA"></div>
+            <div id="screenOp"></div>
+            <div id="screenB"></div>
+        </div>
 
-    <div id="keypad">
-        <div id="n-7" class="numkey">7</div>
-        <div id="n-8" class="numkey">8</div>
-        <div id="n-9" class="numkey">9</div>
-        <div id="n-del" class="numkey ctrlKey" >DEL</div>
-        <div id="n-ac" class="numkey ctrlKey" >AC</div>
+        <div id="functionPad">
+            <div id="f-deg" class="numkey functionKey">Deg</div>
+            <div id="f-rad" class="numkey functionKey">Rad</div>
+            <div id="f-w" class="numkey functionKey"></div>
+            <div id="f-x" class="numkey functionKey"></div>
+            <div id="f-y" class="numkey functionKey"></div>
+            <div id="f-z" class="numkey functionKey"></div>
 
-        <div id="n-4" class="numkey">4</div>
-        <div id="n-5" class="numkey">5</div>
-        <div id="n-6" class="numkey">6</div>
-        <div id="n-×" class="numkey oppKey">×</div>
-        <div id="n-÷" class="numkey oppKey">÷</div>
+            <div id="f-sin⁻¹" class="numkey functionKey">sin⁻¹</div>
+            <div id="f-cos⁻¹" class="numkey functionKey">cos⁻¹</div>
+            <div id="f-tan⁻¹" class="numkey functionKey">tan⁻¹</div>
+            
 
-        <div id="n-1" class="numkey">1</div>
-        <div id="n-2" class="numkey">2</div>
-        <div id="n-3" class="numkey">3</div>
-        <div id="n-+" class="numkey oppkey">+</div>
-        <div id="n-−" class="numkey oppkey">−</div>
+            <div id="f-eˣ" class="numkey functionKey">eˣ</div>
+            <div id="f-10ˣ" class="numkey functionKey">10ˣ</div>
+            <div id="f-2ˣ" class="numkey functionKey">2ˣ</div>
 
-        <div id="n-0" class="numkey">0</div>
-        <div id="n-±" class="numkey oppkey">±</div>
-        <div id="n-." class="numkey">.</div>
-        <div id="n-E" class="numkey oppkey">E</div>
-        <div id="n-=" class="numkey oppkey">=</div>
+            <div id="f-sin" class="numkey functionKey">sin</div>
+            <div id="f-cos" class="numkey functionKey">cos</div>
+            <div id="f-tan" class="numkey functionKey">tan</div>
+            
+            <div id="f-ln" class="numkey functionKey">ln</div>
+            <div id="f-log" class="numkey functionKey">log</div>
+            <div id="f-log₂" class="numkey functionKey">log₂</div>
 
+            <div id="f-√" class="numkey functionKey">√</div>
+            <div id="f-x²" class="numkey functionKey">x²</div>
+            <div id="f-1/x" class="numkey functionKey">1/x</div>
+
+            <div id="f-π" class="numkey functionKey">π</div>
+            <div id="f-e" class="numkey functionKey">e</div>
+        </div>
+
+        <div id="keyPad">
+            <div id="n-7" class="numkey">7</div>
+            <div id="n-8" class="numkey">8</div>
+            <div id="n-9" class="numkey">9</div>
+            <div id="n-AC" class="numkey ctrlKey" >DEL</div>
+            <div id="n-AC" class="numkey ctrlKey" >AC</div>
+
+            <div id="n-4" class="numkey">4</div>
+            <div id="n-5" class="numkey">5</div>
+            <div id="n-6" class="numkey">6</div>
+            <div id="n-×" class="numkey oppKey">×</div>
+            <div id="n-÷" class="numkey oppKey">÷</div>
+
+            <div id="n-1" class="numkey">1</div>
+            <div id="n-2" class="numkey">2</div>
+            <div id="n-3" class="numkey">3</div>
+            <div id="n-+" class="numkey oppkey">+</div>
+            <div id="n-−" class="numkey oppkey">−</div>
+
+            <div id="n-0" class="numkey">0</div>
+            <div id="n-±" class="numkey oppkey">±</div>
+            <div id="n-." class="numkey">.</div>
+            <div id="n-E" class="numkey oppkey inactiveKey">E</div>
+            <div id="n-=" class="numkey oppkey">=</div>
+
+        </div>
     </div>
 
 
@@ -95,6 +176,12 @@
     nDecimals = 0;
     showDecimal = false;
 
+    degMode = "deg"; // or "rad"
+    let div = document.getElementById('f-deg');
+    div.classList.add("invertedKey");
+    div = document.getElementById("f-rad");
+    div.classList.remove("invertedKey");
+
     ADiv = document.getElementById("screenA");
     opDiv = document.getElementById("screenOp");
     BDiv = document.getElementById("screenB");
@@ -107,7 +194,8 @@
     for (key of keys) {
         key.addEventListener("click", function(){
             console.log(this.id, this.textContent);
-            keyId = this.textContent;
+            // keyId = this.textContent;
+            keyId = this.id.split("-")[1];
 
             if ("0123456789".includes(keyId)){
                 console.log("result a.", result);
@@ -125,6 +213,14 @@
                 console.log("result c.", result);
                 onB(result);
                 
+            }
+            else if (keyId === "π") {
+                result = Math.PI;
+                onB("π")
+            }
+            else if (keyId === "e") {
+                result = Math.E;
+                onB("e")
             }
             else if (keyId === "."){
                 if (showDecimal === false) {
@@ -158,6 +254,11 @@
                 
 
             }
+            else if (keyId === "±"){
+                result *= -1;
+                onB(result);
+            }
+
             else if (keyId === "AC") {
                 result = 0;
                 oldResult = 0;
@@ -193,7 +294,72 @@
                 resetOppKeys();
 
             }
-            
+            else if (keyId ==="deg"){
+                degMode = "deg";
+                let div = document.getElementById('f-deg');
+                div.classList.add("invertedKey");
+                div = document.getElementById("f-rad");
+                div.classList.remove("invertedKey");
+            }
+            else if (keyId ==="rad"){
+                degMode = "rad";
+                let div = document.getElementById('f-rad');
+                div.classList.add("invertedKey");
+                div = document.getElementById("f-deg");
+                div.classList.remove("invertedKey");
+            }
+            else if (keyId === "√"){
+                result = Math.sqrt(result);
+                onB(result);
+            }
+            else if (keyId === "x²"){
+                result *= result;
+                onB(result);
+            }
+            else if (keyId === "1/x"){
+                result = 1 / result;
+                onB(result);
+            }
+            else if (keyId === "ln"){
+                result = Math.log(result);
+                onB(result);
+            }
+            else if (keyId === "log"){
+                result = Math.log10(result);
+                onB(result);
+            }
+            else if (keyId === "log₂"){
+                result = Math.log2(result);
+                onB(result);
+            }
+            else if (keyId === "sin") {
+                result = Math.sin(angleInRad(result));
+                onB(result);
+            }
+            else if (keyId === "cos") {
+                result = Math.cos(angleInRad(result));
+                onB(result);
+            }
+            else if (keyId === "tan") {
+                result = Math.tan(angleInRad(result));
+                onB(result);
+            }
+            else if (keyId === "sin⁻¹") {
+                result = Math.asin(result);
+                result = degMode === "deg" ? radToDeg(result) : result;
+                onB(result);
+            }
+            else if (keyId === "cos⁻¹") {
+                result = Math.acos(result);
+                result = degMode === "deg" ? radToDeg(result) : result;
+                onB(result);
+            }
+            else if (keyId === "tan⁻¹") {
+                result = Math.atan(result);
+                result = degMode === "deg" ? radToDeg(result) : result;
+                onB(result);
+            }
+
         })
     }
             
@@ -273,6 +439,16 @@
         BDiv.textContent = "";
     }
 
+
+    function angleInRad(theta){
+        theta = degMode === "deg" ? theta * Math.PI / 180 : theta;
+        return theta;
+    }
+
+    function radToDeg(theta){
+        theta = theta * 180 / Math.PI;
+        return theta;
+    }
 
 
 </script>
