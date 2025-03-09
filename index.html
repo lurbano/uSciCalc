@@ -134,6 +134,7 @@
 
             <div id="f-√" class="numkey functionKey">√</div>
             <div id="f-x²" class="numkey functionKey">x²</div>
+            <div id="f-xʸ" class="numkey functionKey">xʸ</div>
             <div id="f-1/x" class="numkey functionKey">1/x</div>
 
             <div id="f-π" class="numkey functionKey">π</div>
@@ -179,6 +180,10 @@
     nDecimals = 0;
     showDecimal = false;
 
+    exponenting = false;
+    expType = "";
+    expBase = 1;
+
     degMode = "deg"; // or "rad"
     let div = document.getElementById('f-deg');
     div.classList.add("invertedKey");
@@ -201,19 +206,14 @@
             keyId = this.id.split("-")[1];
 
             if ("0123456789".includes(keyId)){
-                console.log("result a.", result);
-                // if (showDecimal){
-                //     nDecimals += 1;
-                // }
-                console.log(nDecimals)
+
                 result = result*(10**(nDecimals+1)) + parseInt(keyId);
-                console.log("result b.", result);
+                
                 if (showDecimal){
                     nDecimals += 1;
                     result = result / (10**nDecimals);
                     result = Number(result.toFixed(nDecimals));
                 }
-                console.log("result c.", result);
                 onB(result);
                 
             }
@@ -239,8 +239,6 @@
                     //execute operation
                     calculate();
                     
-
-
                 }
 
                 highlightKey(keyId);
@@ -288,7 +286,7 @@
                 onB(result);
             }
             else if (keyId === "="){
-
+                console.log("operation", operation)
                 calculate();
 
                 operation = "";
@@ -362,6 +360,32 @@
                 result = degMode === "deg" ? radToDeg(result) : result;
                 onB(result);
             }
+            else if (keyId === "2ˣ"){
+                result = 2 ** result;
+                onB(result);
+            }
+            else if (keyId === "10ˣ"){
+                result = 10 ** result;
+                onB(result);
+            }
+            else if (keyId === "eˣ"){
+                result = Math.E ** result;
+                onB(result);
+            }
+            else if (keyId === "xʸ"){
+                let div = document.getElementById(this.id);
+                if (exponenting) {
+                    exponenting = false;
+                    div.classList.remove("invertedKey");
+                } else {
+                    exponenting = true;
+                    expBase = result;
+                    result = 0;
+                    div.classList.add("invertedKey");
+                    
+                    onB("");
+                }
+            }
 
         })
     }
@@ -370,20 +394,29 @@
         operation = opDiv.textContent;
         let calc = ADiv.textContent + operation + BDiv.textContent;
 
-        if (operation === "+"){
-            result = oldResult + result;
-        }
-        else if (operation === "−"){
-            result = oldResult - result;
-        }
-        else if (operation === "×"){
-            result = oldResult * result;
-        }
-        else if (operation === "÷"){
-            result = oldResult / result;
+        if (exponenting){
+            exponenting = false;
+            let div = document.getElementById("f-xʸ");
+            div.classList.remove("invertedKey");
+            result = expBase ** result;
         }
 
-        resetKey(operation);
+        if (operation !== "") {
+            if (operation === "+"){
+                result = oldResult + result;
+            }
+            else if (operation === "−"){
+                result = oldResult - result;
+            }
+            else if (operation === "×"){
+                result = oldResult * result;
+            }
+            else if (operation === "÷"){
+                result = oldResult / result;
+            }
+        } 
+        
+        resetOppKeys();
 
         onA(calc);
         onOp("=");
@@ -405,7 +438,6 @@
 
     function resetOppKeys(){
         for (let key of oppKeys){
-            console.log(key.textContent);
             resetKey(key.textContent);
         }
     }
