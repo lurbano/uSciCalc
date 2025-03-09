@@ -35,7 +35,9 @@
             background-color: aliceblue;
             padding-left: 5px;
             height: 50px;
+            line-height: 50px;
             vertical-align: middle;
+            font-size: 1.5em;
         }
         #keyPad {
             display: grid;
@@ -81,6 +83,7 @@
             line-height: 50px;
             font-family: 'Times New Roman', serif;
             font-style: italic;
+            font-size: 1.5em;
             /* border: 1px solid black;
             border-radius: 3px;
             margin: auto;
@@ -112,9 +115,9 @@
             <div id="f-y" class="numkey functionKey"></div>
             <div id="f-z" class="numkey functionKey"></div>
 
-            <div id="f-sin⁻¹" class="numkey functionKey">sin⁻¹</div>
-            <div id="f-cos⁻¹" class="numkey functionKey">cos⁻¹</div>
-            <div id="f-tan⁻¹" class="numkey functionKey">tan⁻¹</div>
+            <div id="f-sin⁻¹" class="numkey functionKey">sin<sup>-1</sup></div>
+            <div id="f-cos⁻¹" class="numkey functionKey">cos<sup>-1</sup></div>
+            <div id="f-tan⁻¹" class="numkey functionKey">tan<sup>-1</sup></div>
             
 
             <div id="f-eˣ" class="numkey functionKey">eˣ</div>
@@ -220,7 +223,7 @@
             }
             else if (keyId === "e") {
                 result = Math.E;
-                onB("e")
+                onB("<i>e</i>")
             }
             else if (keyId === "."){
                 if (showDecimal === false) {
@@ -433,10 +436,10 @@
                 val = Number(val.toFixed(10));
             }
         }
-        BDiv.textContent = val;
+        BDiv.innerHTML = val;
     }
     function clearB(){
-        BDiv.textContent = "";
+        BDiv.innerHTML = "";
     }
 
 
